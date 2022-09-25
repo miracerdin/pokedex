@@ -43,14 +43,18 @@ import OnePokemon from "./OnePokemon.vue";
   },
 })
 export default class HomeView extends Vue {
-  data() {
-    return {
-      search: "",
-    };
+  search = "";
+  async mounted() {
+    let local = JSON.parse(localStorage.getItem("liste") as string) as [];
+    if (!local || local.length === 0) {
+      localStorage.setItem("liste", JSON.stringify([]));
+    }
   }
 }
 </script>
 <style>
-.home {
+.cover {
+  display: flex;
+  flex-wrap: wrap;
 }
 </style>

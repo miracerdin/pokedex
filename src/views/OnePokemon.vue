@@ -1,10 +1,67 @@
 <template>
-  <div>
-    <h1>{{ dataEach?.name?.toUpperCase() }}</h1>
-    <img v-bind:src="dataEach?.sprites?.front_default" alt="images" />
+  <div class="cover">
+    <div class="container">
+      <h2>{{ dataEach?.name?.toUpperCase() }}</h2>
+      <div class="imgDiv">
+        <img v-bind:src="dataEach?.sprites?.front_default" alt="images" />
+      </div>
+      <div class="spans">
+        <router-link :to="{ name: 'DetailPage', params: { name: dataEach } }"
+          >Detail</router-link
+        >
+
+        <span v-on:click="addToFavorites"
+          ><i class="fa-solid fa-heart" :class="{ active: isActive }"></i>
+        </span>
+      </div>
+    </div>
   </div>
 </template>
-<script>
+<script lang="ts">
+interface Props {
+  url: string;
+}
+import { Component, Prop, Vue } from "vue-property-decorator";
+import axios from "axios";
+import { mapActions, mapGetters } from "vuex";
+@Component({
+  props: {
+    data: {
+      type: Object,
+      default: true,
+    },
+  },
+  methods: {
+    ...mapActions(["addFavorites"]),
+
+    addToFavorites() {
+      this.addFavorites(this.dataEach);
+      this.isActive = true;
+      let local = JSON.parse(localStorage.getItem("liste") as string) as [];
+      if (local && local.some((item) => item.id === this.dataEach.id)) {
+        null;
+      } else {
+        local.push(this.dataEach);
+      }
+      localStorage.setItem("liste", JSON.stringify(local));
+    },
+  },
+  computed: {
+    ...mapGetters(["allfavorites"]),
+  },
+})
+export default class OnePokemon extends Vue {
+  dataEach = [];
+  favoriteList = "";
+  isActive = false;
+
+  async mounted() {
+    const { data } = await axios.get(`${this.data.url}`);
+    this.dataEach = data;
+  }
+}
+</script>
+<!-- <script>
 import axios from "axios";
 import { mapActions, mapGetters } from "vuex";
 export default {
@@ -16,10 +73,57 @@ export default {
     };
   },
   async created() {
-    await axios.get(this.data.url).then((response) => {
+    await axios.get(this.data?.url).then((response) => {
       this.dataEach = response.data;
     });
   },
 };
-</script>
-<style></style>
+</script> -->
+<style scoped>
+.cover {
+  display: flex;
+  flex-wrap: wrap;
+}
+.container {
+  width: 200px;
+  height: 200px;
+  margin: 1rem;
+  background-color: burlywood;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 0.5rem;
+  cursor: pointer;
+  border-radius: 10px;
+}
+.container:hover {
+  transform: scale(1.02);
+}
+.active {
+  color: red;
+}
+.poke {
+  text-align: center;
+
+  width: 100px;
+  height: 100px;
+}
+.alt {
+  margin-top: 1.5rem;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+.spans span {
+  margin: 1rem;
+}
+img {
+  width: 100%;
+  object-fit: cover;
+}
+h1 {
+  max-width: 80%;
+}
+</style>

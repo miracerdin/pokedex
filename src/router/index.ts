@@ -21,6 +21,11 @@ const routes: Array<RouteConfig> = [
         /* webpackChunkName: "FavoritesPage" */ "../views/FavoritesPage.vue"
       ),
   },
+  {
+    path: "DetailPage",
+    name: "DetailPage",
+    component: () => import("@/views/DetailPage.vue"),
+  },
 ];
 
 const router = new VueRouter({

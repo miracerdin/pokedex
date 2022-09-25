@@ -31,7 +31,7 @@ const mutations = {
   setFavorite: (state: any, dataEach: any) => {
     if (!state.favorites.some((item: any) => item.id === dataEach.id)) {
       state.favorites.unshift(dataEach);
-      localStorage.setItem("liste", JSON.stringify(dataEach));
+      // localStorage.setItem("liste", JSON.stringify(dataEach));
       console.log(state.favorites);
     }
   },

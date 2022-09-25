@@ -6,7 +6,11 @@
         <img v-bind:src="data?.sprites?.front_default" alt="images" />
       </div>
       <div class="spans">
-        <!-- <span>Detail</span>
+        <span v-on:click="deletefavorite(data)">
+          <i class="fa-solid fa-trash"></i>
+        </span>
+        <!-- 
+         
 
         <span v-on:click="addToFavorites"
           ><i class="fa-solid fa-heart" :class="{ active: isActive }"></i>
@@ -25,6 +29,12 @@ export default class FavoritesPage extends Vue {
   async mounted() {
     let local = JSON.parse(localStorage.getItem("liste"));
     this.datas = local;
+  }
+  async deletefavorite(data) {
+    let local = JSON.parse(localStorage.getItem("liste"));
+    let filtered = local.filter((item) => item.id !== data.id);
+    localStorage.setItem("liste", JSON.stringify(filtered));
+    this.datas = filtered;
   }
 }
 </script>

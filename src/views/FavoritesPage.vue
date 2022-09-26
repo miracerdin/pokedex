@@ -1,5 +1,8 @@
 <template>
   <div class="cover">
+    <div class="info" v-if="datas.length === 0">
+      There is no favorite pokemon.
+    </div>
     <div class="container" v-for="data in datas" :key="data.id">
       <h2>{{ data?.name?.toUpperCase() }}</h2>
       <div class="imgDiv">
@@ -9,12 +12,6 @@
         <span v-on:click="deletefavorite(data)">
           <i class="fa-solid fa-trash"></i>
         </span>
-        <!-- 
-         
-
-        <span v-on:click="addToFavorites"
-          ><i class="fa-solid fa-heart" :class="{ active: isActive }"></i>
-        </span> -->
       </div>
     </div>
   </div>
@@ -42,6 +39,7 @@ export default class FavoritesPage extends Vue {
 .cover {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
 }
 .container {
   width: 200px;
@@ -58,5 +56,8 @@ export default class FavoritesPage extends Vue {
 }
 .container:hover {
   transform: scale(1.02);
+}
+.info {
+  justify-content: center;
 }
 </style>

@@ -7,7 +7,6 @@ export interface StateProps {
 const state = {
   datalist: [],
   favorites: [],
-  myvalue: "",
 };
 
 const getters = {

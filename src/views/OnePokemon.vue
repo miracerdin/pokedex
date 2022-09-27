@@ -1,9 +1,9 @@
 <template>
   <div class="cover">
     <div class="container">
-      <h2>{{ dataEach?.name?.toUpperCase() }}</h2>
+      <h2>{{ dataEach.name.toUpperCase() }}</h2>
       <div class="imgDiv">
-        <img v-bind:src="dataEach?.sprites?.front_default" alt="images" />
+        <img v-bind:src="dataEach.sprites.front_default" alt="images" />
       </div>
       <div class="spans">
         <router-link :to="{ name: 'DetailPage', params: { name: dataEach } }"
@@ -20,10 +20,13 @@
 <script lang="ts">
 interface Props {
   url: string;
+  name: string;
+  sprites: Array<string>;
 }
 import { Component, Prop, Vue } from "vue-property-decorator";
 import axios from "axios";
 import { mapActions, mapGetters } from "vuex";
+import { OnePokemonTypes } from "../types/index";
 @Component({
   props: {
     data: {
@@ -31,33 +34,34 @@ import { mapActions, mapGetters } from "vuex";
       default: true,
     },
   },
-  methods: {
-    ...mapActions(["addFavorites"]),
+  // methods: {
+  //   ...mapActions(["addFavorites"]),
 
-    addToFavorites() {
-      this.addFavorites(this.dataEach);
-      this.isActive = true;
-      let local = JSON.parse(localStorage.getItem("liste") as string) as [];
-      if (local && local.some((item) => item.id === this.dataEach.id)) {
-        null;
-      } else {
-        local.push(this.dataEach);
-      }
-      localStorage.setItem("liste", JSON.stringify(local));
-    },
-  },
-  computed: {
-    ...mapGetters(["allfavorites"]),
-  },
+  // },
+  // computed: {
+  //   ...mapGetters(["allfavorites"]),
+  // },
 })
 export default class OnePokemon extends Vue {
-  dataEach = [];
+  dataEach: Array<object> = [];
   favoriteList = "";
   isActive = false;
+  // data:Props<object> = {}
 
   async mounted() {
     const { data } = await axios.get(`${this.data.url}`);
     this.dataEach = data;
+  }
+  addToFavorites() {
+    this.$store.dispatch("addFavorites", this.dataEach);
+    this.isActive = true;
+    let local = JSON.parse(localStorage.getItem("liste") as string) as [];
+    if (local && local.some((item) => item.id === this.dataEach.id)) {
+      null;
+    } else {
+      local.push(this.dataEach);
+    }
+    localStorage.setItem("liste", JSON.stringify(local));
   }
 }
 </script>

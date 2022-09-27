@@ -15,13 +15,11 @@
     </div>
   </div>
 </template>
-<script>
+<script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-@Component({
-  //   props: ["dataEach"],
-})
-export default class HomeView extends Vue {
-  data = "";
+@Component({})
+export default class DetailPage extends Vue {
+  data = {};
   async mounted() {
     this.data = this.$route.params.name;
     console.log(this.data);

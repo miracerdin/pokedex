@@ -4,9 +4,9 @@
       There is no favorite pokemon.
     </div>
     <div class="container" v-for="data in datas" :key="data.id">
-      <h2>{{ data?.name?.toUpperCase() }}</h2>
+      <h2>{{ data.name.toUpperCase() }}</h2>
       <div class="imgDiv">
-        <img v-bind:src="data?.sprites?.front_default" alt="images" />
+        <img v-bind:src="data.sprites.front_default" alt="images" />
       </div>
       <div class="spans">
         <span v-on:click="deletefavorite(data)">
@@ -23,6 +23,7 @@ import { Component, Vue } from "vue-property-decorator";
 @Component
 export default class FavoritesPage extends Vue {
   datas = [];
+
   async mounted() {
     let local = JSON.parse(localStorage.getItem("liste"));
     this.datas = local;

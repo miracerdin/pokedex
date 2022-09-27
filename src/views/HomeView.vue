@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <div v-if="!allDataList">Loading..</div>
+    <div v-if="!datalist">Loading..</div>
     <div class="col">
       <input type="text" v-model="search" placeholder="Search" />
     </div>
@@ -19,7 +19,9 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import OnePokemon from "./OnePokemon.vue";
-import { Action, Getter } from "vuex-class";
+// import { Action, Getter } from "vuex-class";
+// import DetailPage from "./DetailPage.vue";
+import { DetailPokemon } from "../types/index";
 
 @Component({
   components: {
@@ -28,14 +30,17 @@ import { Action, Getter } from "vuex-class";
 })
 export default class HomeView extends Vue {
   search = "";
+  datalist: Array<string | object> = [];
 
-  @Action("fetchPokemon")
-  fetchPokemon!: () => any;
-  @Getter("allDataList")
-  allDataList!: { name: string }[];
-
+  // @Action("fetchPokemon")
+  // fetchPokemon!: () => any;
+  // @Getter("allDataList")
+  // allDataList!: { name: string }[];
+  created() {
+    this.$store.dispatch("fetchPokemon");
+  }
   async mounted() {
-    this.fetchPokemon();
+    this.datalist = this.$store.getters.allDataList;
     let local = JSON.parse(localStorage.getItem("liste") as string) as [];
     if (!local || local.length === 0) {
       localStorage.setItem("liste", JSON.stringify([]));
@@ -44,10 +49,9 @@ export default class HomeView extends Vue {
 
   get filteredList() {
     if (!this.search) {
-      return this.allDataList;
+      return this.$store.getters.allDataList;
     } else {
-      return this.allDataList.filter((post) => {
-        console.log(this.search);
+      return this.$store.getters.allDataList.filter((post: any) => {
         return post.name.includes(this.search.toLowerCase());
       });
     }

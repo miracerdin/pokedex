@@ -6,6 +6,9 @@ describe("FavoritesPage", () => {
     const wrapper = mount(FavoritesPage);
     expect(wrapper.find(".cover").exists()).toBeTruthy();
   });
+  beforeEach(() => {
+    window.localStorage.clear();
+  });
 
   const localStorageMock = (function () {
     interface Local {
@@ -41,6 +44,12 @@ describe("FavoritesPage", () => {
   const setLocalStorage = (id: string, data: any) => {
     window.localStorage.setItem(id, JSON.stringify(data));
   };
+
+  it("when the page landed there should be an empty array with liste key", () => {
+    setLocalStorage("liste", []);
+    const wrapper = mount(FavoritesPage);
+    expect(wrapper.exists()).toBe(true);
+  });
   it("data is added into local storage", () => {
     const mockId = "1";
     const mockJson = { data: "json data" };

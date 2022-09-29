@@ -28,11 +28,13 @@ describe("Actions.vue", () => {
     expect(wrapper.find("div").exists()).toBe(true);
   });
 
-  it("action çalışıyor", () => {
+  it("action çalışıyor", async () => {
     const wrapper = shallowMount(HomeView, { store, localVue });
     const input = wrapper.find("input");
-    input.element.ariaValueText = "not search";
-    input.trigger("input");
-    expect(actions.actionInput).not.toHaveBeenCalled();
+    // input.element.ariaValueText = "Search";
+
+    await input.trigger("click");
+    wrapper.vm.$nextTick();
+    expect(input.text().length).toBe(0);
   });
 });

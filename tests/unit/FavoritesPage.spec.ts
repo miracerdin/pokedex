@@ -1,7 +1,5 @@
 import FavoritesPage from "@/views/FavoritesPage.vue";
 import { mount } from "@vue/test-utils";
-import Vue from "vue";
-import sinon from "sinon";
 import flushPromises from "flush-promises";
 import { DataTypes } from "../../src/types/index";
 

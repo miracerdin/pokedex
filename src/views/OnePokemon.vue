@@ -1,9 +1,13 @@
 <template>
   <div class="cover">
     <div class="container">
-      <h2>{{ dataEach.name.toUpperCase() }}</h2>
+      <h2 v-if="dataEach.name">{{ dataEach.name.toUpperCase() }}</h2>
       <div class="imgDiv">
-        <img v-bind:src="dataEach.sprites.front_default" alt="images" />
+        <img
+          v-if="dataEach.sprites"
+          v-bind:src="dataEach.sprites.front_default"
+          alt="images"
+        />
       </div>
       <div class="spans">
         <router-link :to="{ name: 'DetailPage', params: { name: dataEach } }"
@@ -18,44 +22,45 @@
   </div>
 </template>
 <script lang="ts">
-interface Props {
-  url: string;
-  name: string;
-  sprites: Array<string>;
-}
 import { Component, Prop, Vue } from "vue-property-decorator";
 import axios from "axios";
 import { mapActions, mapGetters } from "vuex";
-import { OnePokemonTypes } from "../types/index";
+import { LocalTypes } from "../types/index";
 @Component({
-  props: {
-    data: {
-      type: Object,
-      default: true,
-    },
-  },
+  // props: {
+  //   data: {
+  //     type: Object,
+  //     default: true,
+  //   },
+  // },
   // methods: {
   //   ...mapActions(["addFavorites"]),
-
   // },
   // computed: {
   //   ...mapGetters(["allfavorites"]),
   // },
 })
 export default class OnePokemon extends Vue {
-  dataEach: Array<object> = [];
+  dataEach = {} as LocalTypes;
   favoriteList = "";
   isActive = false;
-  // data:Props<object> = {}
+  @Prop() data!: string;
 
-  async mounted() {
-    const { data } = await axios.get(`${this.data.url}`);
-    this.dataEach = data;
+  async created() {
+    const { data } = await axios.get(`${this.data}`);
+    //this.dataEach = data;
+    this.dataEach = {
+      url: data.url,
+      id: data.id,
+      name: data.name,
+      sprites: data.sprites,
+    };
   }
   addToFavorites() {
     this.$store.dispatch("addFavorites", this.dataEach);
     this.isActive = true;
-    let local = JSON.parse(localStorage.getItem("liste") as string) as [];
+    let local = JSON.parse(localStorage.getItem("liste") as string);
+    console.log("local deneme", local);
     if (local && local.some((item) => item.id === this.dataEach.id)) {
       null;
     } else {

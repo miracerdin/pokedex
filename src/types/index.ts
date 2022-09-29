@@ -7,9 +7,9 @@ export interface DetailPokemon {
   moves?: any;
 }
 
-export interface OnePokemonTypes {
-  name: string;
+export interface LocalTypes {
   url?: string;
-  sprites?: any;
   id?: number;
+  name?: string;
+  sprites?: any;
 }

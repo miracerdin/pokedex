@@ -10,10 +10,11 @@
         />
       </div>
       <div class="spans">
-        <router-link :to="{ name: 'DetailPage', params: { name: dataEach } }"
+        <router-link
+          class="link"
+          :to="{ name: 'DetailPage', params: { name: dataEach } }"
           >Detail</router-link
         >
-
         <span class="addFavoriteFunc" v-on:click="addToFavorites"
           ><i class="fa-solid fa-heart" :class="{ active: isActive }"></i>
         </span>
@@ -127,6 +128,15 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-around;
+}
+.spans {
+  font-size: 1.2rem;
+}
+.link {
+  transition: color 0.3s ease;
+}
+.link:hover {
+  color: rgb(244, 63, 8);
 }
 .spans span {
   margin: 1rem;

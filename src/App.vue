@@ -9,6 +9,12 @@
 </template>
 
 <style>
+html,
+body {
+  margin: 0px !important;
+  padding: 0px !important;
+  background-color: #95e9c4;
+}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -19,6 +25,7 @@
 
 nav {
   padding: 30px;
+  font-size: 1.5rem;
 }
 
 nav a {

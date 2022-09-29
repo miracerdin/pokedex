@@ -62,8 +62,20 @@ export default class HomeView extends Vue {
 .cover {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
 }
 .item {
   text-align: center;
+}
+.col {
+  width: 100%;
+
+  margin: auto;
+}
+input {
+  width: 40%;
+  height: 2rem;
+  margin: auto;
+  font-size: 1.5rem;
 }
 </style>

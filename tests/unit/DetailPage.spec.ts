@@ -6,6 +6,14 @@ describe("DetailPage", () => {
     const wrapper = mount(DetailPage);
     expect(wrapper.find(".cover").exists()).toBe(true);
   });
+  it("it renders the component", () => {
+    const wrapper = mount(DetailPage);
+    expect(wrapper.find("h3").exists()).toBe(true);
+  });
+  it("total p number", () => {
+    const wrapper = mount(DetailPage);
+    expect(wrapper.findAll("p").length).toBe(3);
+  });
   it("should mount on a page", () => {
     const wrapper = mount(DetailPage, {
       mocks: {

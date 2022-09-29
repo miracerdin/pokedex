@@ -6,7 +6,7 @@
     </div>
     <div class="cover">
       <div v-for="data in filteredList" :key="data.name">
-        <OnePokemon :data="data"></OnePokemon>
+        <OnePokemon :data="data.url"></OnePokemon>
       </div>
     </div>
 

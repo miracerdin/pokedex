@@ -4,12 +4,15 @@
       There is no favorite pokemon.
     </div>
     <div class="container" v-for="data in datas" :key="data.id">
-      <h2>{{ data.name.toUpperCase() }}</h2>
+      <h2 class="h2">{{ data.name.toUpperCase() }}</h2>
       <div class="imgDiv">
-        <img v-bind:src="data.sprites.front_default" alt="images" />
+        <img
+          v-bind:src="data.sprites.other.dream_world.front_default"
+          alt="images"
+        />
       </div>
       <div class="spans">
-        <span v-on:click="deletefavorite(data)">
+        <span class="deleteSpan" @click="deletefavorite(data)">
           <i class="fa-solid fa-trash"></i>
         </span>
       </div>
@@ -24,9 +27,10 @@ import { Component, Vue } from "vue-property-decorator";
 export default class FavoritesPage extends Vue {
   datas = [];
 
-  async mounted() {
+  async created() {
     let local = JSON.parse(localStorage.getItem("liste"));
     this.datas = local;
+    console.log("bu local", local);
   }
   async deletefavorite(data) {
     let local = JSON.parse(localStorage.getItem("liste"));
@@ -60,5 +64,14 @@ export default class FavoritesPage extends Vue {
 }
 .info {
   justify-content: center;
+}
+.imgDiv {
+  width: 200px;
+  height: 90%;
+}
+img {
+  width: 150px;
+  height: 100px;
+  object-fit: fill;
 }
 </style>

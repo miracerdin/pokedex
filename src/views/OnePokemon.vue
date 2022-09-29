@@ -14,7 +14,7 @@
           >Detail</router-link
         >
 
-        <span v-on:click="addToFavorites"
+        <span class="addFavoriteFunc" v-on:click="addToFavorites"
           ><i class="fa-solid fa-heart" :class="{ active: isActive }"></i>
         </span>
       </div>
@@ -44,23 +44,26 @@ export default class OnePokemon extends Vue {
   dataEach = {} as LocalTypes;
   favoriteList = "";
   isActive = false;
-  @Prop() data!: string;
+  @Prop() data!: object;
 
   async created() {
     const { data } = await axios.get(`${this.data}`);
-    //this.dataEach = data;
+
     this.dataEach = {
       url: data.url,
       id: data.id,
       name: data.name,
+      height: data.height,
+      weight: data.weight,
       sprites: data.sprites,
+      abilities: data.abilities,
+      base_experience: data.base_experience,
     };
   }
   addToFavorites() {
-    this.$store.dispatch("addFavorites", this.dataEach);
     this.isActive = true;
+    this.$store.dispatch("addFavorites", this.dataEach);
     let local = JSON.parse(localStorage.getItem("liste") as string);
-    console.log("local deneme", local);
     if (local && local.some((item) => item.id === this.dataEach.id)) {
       null;
     } else {

@@ -17,10 +17,11 @@
 </template>
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
+import { DetailPokemon } from "../types/index";
 @Component({})
 export default class DetailPage extends Vue {
-  data = {};
-  async mounted() {
+  data = {} as DetailPokemon;
+  async created() {
     this.data = this.$route.params.name;
     console.log(this.data);
   }

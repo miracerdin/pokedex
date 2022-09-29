@@ -2,24 +2,6 @@ import { shallowMount, createLocalVue } from "@vue/test-utils";
 import Vuex from "vuex";
 import HomeView from "@/views/HomeView.vue";
 
-// import Pokemon from "@/store/modules/pokemon";
-
-// jest.mock("@/store/index.js", () => ({
-//   getters: {
-//     allDataList: "Miraç",
-//   },
-// }));
-
-// jest.mock("@/store/modules/pokemon.ts");
-
-// describe("HomeView.vue", () => {
-//   test("The adress getter gets the right adress", () => {
-//     const state = {
-//       datalist:never[],
-//     };
-//     expect(Pokemon.getters.allDataList(state)).toBe("http://foobar.com/barfoo");
-//   });
-// });
 const localVue = createLocalVue();
 localVue.use(Vuex);
 describe("Actions.vue", () => {

@@ -16,14 +16,21 @@
   </div>
 </template>
 <script lang="ts">
+import axios from "axios";
 import { Component, Vue } from "vue-property-decorator";
 import { DetailPokemon } from "../types/index";
+import PokemonModule from "../store/Pokemon";
 @Component({})
 export default class DetailPage extends Vue {
   data = {} as DetailPokemon;
   async created() {
     this.data = this.$route.params.name;
-    console.log(this.data);
+    console.log("data", this.data);
+    const response = await axios.get(
+      `https://pokeapi.co/api/v2/pokemon/${this.data.id}`
+    );
+    this.data = await response.data.results;
+    console.log("son data", this.data);
   }
 }
 </script>

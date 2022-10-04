@@ -5,8 +5,9 @@
       <input type="text" v-model="search" placeholder="Search" />
     </div>
     <div class="cover">
-      <div v-for="data in filteredList" :key="data.name">
-        <OnePokemon :data="data.url"></OnePokemon>
+      <div>
+        <InfiniteScroll :articles="filteredList" @refetch="fetch">
+        </InfiniteScroll>
       </div>
     </div>
 
@@ -21,26 +22,57 @@ import { Component, Vue } from "vue-property-decorator";
 import OnePokemon from "./OnePokemon.vue";
 // import { Action, Getter } from "vuex-class";
 // import DetailPage from "./DetailPage.vue";
-import { DetailPokemon } from "../types/index";
+import InfiniteScroll from "@/components/InfiniteScroll.vue";
+import { db } from "../store/db";
+import PokemonModule from "@/store/Pokemon";
+import axios from "axios";
 
 @Component({
   components: {
-    OnePokemon,
+    // OnePokemon,
+    InfiniteScroll,
   },
 })
 export default class HomeView extends Vue {
   search = "";
   datalist: Array<string | object> = [];
+  articles: string[] = [];
+  favorites = [];
+  offset = 20;
+  lastpokemon = 20;
 
-  // @Action("fetchPokemon")
-  // fetchPokemon!: () => any;
-  // @Getter("allDataList")
-  // allDataList!: { name: string }[];
+  // firestore:{
+  //   favorites:db.collection("favorites")
+  // }
   created() {
-    this.$store.dispatch("fetchPokemon");
+    PokemonModule.SetDatas(this.filteredList);
   }
+  async fetch(offset: number) {
+    if (this.lastpokemon >= 1200) {
+      return;
+    }
+    let articles = await axios
+      .get(`https://pokeapi.co/api/v2/pokemon/?offset=${offset}&limit=20`)
+      .then((response) => {
+        // console.log("response", response.data.results);
+        for (let i of response.data.results) {
+          let datas = axios.get(i.url).then((response) => {
+            // console.log("response", response.data);
+            this.articles.push(response.data);
+          });
+        }
+      })
+      .catch((error) => console.log(error));
+    this.lastpokemon += 20;
+    // console.log("articles", this.articles);
+  }
+
+  // this.$store.dispatch("fetchPokemon");
+  // }
   async mounted() {
-    this.datalist = this.$store.getters.allDataList;
+    this.fetch(0);
+    console.log("favorites", PokemonModule.favorites);
+    // this.datalist = this.$store.getters.allDataList;
     let local = JSON.parse(localStorage.getItem("liste") as string) as [];
     if (!local || local.length === 0) {
       localStorage.setItem("liste", JSON.stringify([]));
@@ -49,9 +81,9 @@ export default class HomeView extends Vue {
 
   get filteredList() {
     if (!this.search) {
-      return this.$store.getters.allDataList;
+      return this.articles;
     } else {
-      return this.$store.getters.allDataList.filter((post: any) => {
+      return this.articles.filter((post: any) => {
         return post.name.includes(this.search.toLowerCase());
       });
     }

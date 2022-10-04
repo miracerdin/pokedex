@@ -11,15 +11,21 @@
   "dependencies": {
     "@babel/core": "^7.19.1",
     "axios": "^0.27.2",
+    "babel-plugin-transform-decorators": "^6.24.1",
     "core-js": "^3.8.3",
+    "dotenv": "^16.0.3",
+    "firebase": "^9.10.0",
     "flush-promises": "^1.0.2",
     "sinon": "^14.0.0",
     "vue": "^2.6.14",
     "vue-class-component": "^7.2.3",
+    "vue-observe-visibility": "^1.0.0",
     "vue-property-decorator": "^9.1.2",
     "vue-router": "^3.5.1",
+    "vuefire": "^2.2.5",
     "vuex": "^3.6.2",
-    "vuex-class": "^0.3.2"
+    "vuex-class": "^0.3.2",
+    "vuex-module-decorators": "^1.2.0"
   },
   "devDependencies": {
     "@babel/preset-typescript": "^7.18.6",

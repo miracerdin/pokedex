@@ -1,13 +1,26 @@
 <template>
   <div id="app">
+    <HeaderComponent></HeaderComponent>
     <nav>
       <router-link to="/">Home</router-link> |
-      <router-link to="/FavoritesPage">FavoritesPage</router-link>
+      <router-link to="/FavoritesPage">FavoritesPage</router-link> |
+      <router-link to="/LoginView">Login</router-link> |
+      <router-link to="/RegisterView">Register</router-link>
     </nav>
     <router-view />
   </div>
 </template>
-
+<script>
+import Vue from "vue";
+import { Component } from "vue-property-decorator";
+import HeaderComponent from "@/components/HeaderComponent.vue";
+@Component({
+  components: {
+    HeaderComponent,
+  },
+})
+export default class App extends Vue {}
+</script>
 <style>
 html,
 body {
